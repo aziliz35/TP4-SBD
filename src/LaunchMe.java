@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -38,7 +42,7 @@ public class LaunchMe {
 		return count;
 	}
 
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws IOException  {
 
 
 
@@ -82,6 +86,52 @@ public class LaunchMe {
 		System.out.println("Test sur tableau 3 : ");		
 		System.out.println(" Count avec valeur non perturbée = " + count3);
 		System.out.println("Pour un bruit = " + bruit3 + " le count = " + (count3+bruit3));
+
+		//----------------------------FIN QUESTION 5----------------------
+
+
+		//----------------------------QUESTION 6-------------------------
+
+		int Q6tab[] = tableauInt(1000,1000);
+		Laplace laplace4 = new Laplace(1000, true);
+		double ratio;
+		double moyValeurPerturb;
+		double valPerturb;
+		double sumValPerturb=0;
+		double nbValPerturb =0;
+		int nbAgregat =0;
+
+		
+		
+		BufferedWriter bw = new BufferedWriter(
+				new FileWriter(
+						new File ( "./laplace.csv" ),
+						false
+						)
+				);
+		bw.append ("Nb_valeur_perturbée , ratio");
+		bw.append("\n");
+		
+		for(int i = 0; i<5; i++){
+			double bruit4 = laplace4.genNoise(1,1000);
+			valPerturb = count(Q6tab) + bruit4;
+			nbValPerturb++;
+			sumValPerturb+=valPerturb;
+			moyValeurPerturb=sumValPerturb/nbValPerturb;
+			ratio=moyValeurPerturb/count(Q6tab);
+			bw.append(nbValPerturb + "," + ratio + "\n");
+			if(ratio>0.9 && ratio<1.1){
+				nbAgregat++;
+			}
+					
+		}
+		bw.flush();
+		bw.close();	
+		
+		System.out.println(" ");
+		System.out.println("Question 6");
+		System.out.println("Le nombre d'agregat sur 5 compris entre 0.9 et 0.1 est " + nbAgregat);
+
 	}
 
 
