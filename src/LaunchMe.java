@@ -11,13 +11,14 @@ public class LaunchMe {
 
 	}
 
-
+	//fonction qui génère un nombre aléatoire
 	static double randomWithRange(int min, int max)
 	{
 		int range =  ((max - min) * 1);     
 		return (double)(Math.random() * range) + min;
 	}
 
+	//fonction quigénère un tableau de valeur aléatoire
 	public static int[] tableauInt(int n, int max)
 	{
 		int tab[] = new int[n];
@@ -29,6 +30,7 @@ public class LaunchMe {
 		return tab;
 	}
 
+	//fonction qui compte le nombre de valeurs supérieur à la médiane
 	private static int count(int[] tab) {
 		int max =50;
 		int count = 0;
@@ -102,7 +104,7 @@ public class LaunchMe {
 		int nbAgregat =0;
 
 		
-		
+		//création du fichier csv
 		BufferedWriter bw = new BufferedWriter(
 				new FileWriter(
 						new File ( "./laplace.csv" ),
@@ -114,12 +116,17 @@ public class LaunchMe {
 		
 		for(int i = 0; i<5; i++){
 			double bruit4 = laplace4.genNoise(1,1000);
+			
 			valPerturb = count(Q6tab) + bruit4;
+			
 			nbValPerturb++;
 			sumValPerturb+=valPerturb;
+			//calcul de la moyenne des valeurs perturbées
 			moyValeurPerturb=sumValPerturb/nbValPerturb;
+			
 			ratio=moyValeurPerturb/count(Q6tab);
 			bw.append(nbValPerturb + "," + ratio + "\n");
+			
 			if(ratio>0.9 && ratio<1.1){
 				nbAgregat++;
 			}
@@ -132,6 +139,25 @@ public class LaunchMe {
 		System.out.println("Question 6");
 		System.out.println("Le nombre d'agregat sur 5 compris entre 0.9 et 0.1 est " + nbAgregat);
 
+		
+		//---------------------FIN QUESTION 6 -----------------------------
+		
+		//----------------------QUESTION 7 -------------------------------
+		System.out.println(" ");
+		System.out.println("Question 7");
+		
+		int Q7tab[] = tableauInt(1000,1000);
+		Laplace laplace5 = new Laplace(1000, true);
+		
+		double sumPerturb=0;
+		
+		//On fait 1000 perturbations
+		for(int i=0;i<1000;i++){
+			sumPerturb+=laplace5.genNoise(1000,0.0001);
+		}
+		System.out.println("La moyenne des erreurs pour un agregat de type SUM : " + sumPerturb/1000 );
+		
+		//------------------------------FIN QUESTION 7 -------------------------
 	}
 
 
